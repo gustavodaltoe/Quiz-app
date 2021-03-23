@@ -1,6 +1,7 @@
 import { FontAwesome } from '@expo/vector-icons';
 
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 import { Spacer } from '../Spacer';
 
@@ -12,10 +13,20 @@ interface Props {
 }
 
 export function MainButtons({ showPlay = true, showStats = true }: Props) {
+  const navigation = useNavigation();
+
+  const handleStatsPress = () => {
+    navigation.navigate('stats');
+  };
+
+  const handlePlayPress = () => {
+    navigation.navigate('challenge');
+  };
+
   return (
     <>
       {showStats && (
-        <Button>
+        <Button onPress={handleStatsPress}>
           <ButtonText>Stats</ButtonText>
         </Button>
       )}
@@ -23,7 +34,7 @@ export function MainButtons({ showPlay = true, showStats = true }: Props) {
       {showPlay && showStats && <Spacer height={20} />}
 
       {showPlay && (
-        <Button>
+        <Button onPress={handlePlayPress}>
           <ButtonText>
             <FontAwesome name="play" size={28} /> Play
           </ButtonText>
