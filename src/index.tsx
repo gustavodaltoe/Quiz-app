@@ -1,16 +1,20 @@
+/* eslint-disable camelcase */
 import 'react-native-gesture-handler';
 import React from 'react';
 import { StatusBar, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-// eslint-disable-next-line camelcase
-import { useFonts, Roboto_900Black } from '@expo-google-fonts/roboto';
+import {
+  useFonts,
+  Roboto_900Black,
+  Roboto_500Medium,
+} from '@expo-google-fonts/roboto';
 
 import { Routes } from './routes';
 
 export function App() {
   const [fontsLoaded] = useFonts({
-    // eslint-disable-next-line camelcase
     Roboto_900Black,
+    Roboto_500Medium,
   });
 
   if (!fontsLoaded) {
