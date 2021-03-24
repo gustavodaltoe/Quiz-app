@@ -12,11 +12,7 @@ export function GradientBackground({ children }: Props) {
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 2 }}
       style={{
-        position: 'absolute',
-        left: 0,
-        right: 0,
-        top: 0,
-        height: '100%',
+        flex: 1,
       }}>
       {children}
     </LinearGradient>

@@ -7,6 +7,7 @@ import {
   useFonts,
   Roboto_900Black,
   Roboto_500Medium,
+  Roboto_400Regular,
 } from '@expo-google-fonts/roboto';
 
 import { Routes } from './routes';
@@ -15,6 +16,7 @@ export function App() {
   const [fontsLoaded] = useFonts({
     Roboto_900Black,
     Roboto_500Medium,
+    Roboto_400Regular,
   });
 
   if (!fontsLoaded) {

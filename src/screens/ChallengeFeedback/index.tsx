@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text } from 'react-native';
 
-export function Challenge() {
-  return <Text>Challenge</Text>;
+export function ChallengeFeedback() {
+  return <Text>ChallengeFeedback</Text>;
 }

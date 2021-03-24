@@ -3,8 +3,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { Home } from '../screens/Home';
 import { Stats } from '../screens/Stats';
-import { Challenge } from '../screens/ChallengeFeedback';
-import { ChallengeFeedback } from '../screens/Challenge';
+import { ChallengeFeedback } from '../screens/ChallengeFeedback';
+import { Challenge } from '../screens/Challenge';
 import { ChallengeResults } from '../screens/ChallengeResults';
 
 const AppStack = createStackNavigator();

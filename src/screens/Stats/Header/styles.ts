@@ -3,6 +3,7 @@ import { BorderlessButton } from 'react-native-gesture-handler';
 
 export const Wrapper = styled.View`
   height: 60px;
+  position: relative;
   justify-content: center;
 `;
 
@@ -12,6 +13,7 @@ export const BackButton = styled(BorderlessButton)`
   left: 20px;
   width: 30px;
   height: 30px;
+  z-index: 2;
   justify-content: center;
   align-items: center;
 `;
