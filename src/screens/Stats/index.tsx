@@ -2,18 +2,12 @@ import React from 'react';
 
 import { GradientBackground } from '../../components/GradientBackground';
 import { MainButtons } from '../../components/MainButtons';
+import { ResultCard } from '../../components/ResultCard';
 import { Spacer } from '../../components/Spacer';
 
 import { AccuracyBar } from './AccuracyBar';
 import { Header } from './Header';
-import {
-  Card,
-  CardRow,
-  CardTitle,
-  CardValue,
-  PerformanceText,
-  Wrapper,
-} from './styles';
+import * as S from './styles';
 
 export function Stats() {
   return (
@@ -21,39 +15,27 @@ export function Stats() {
       <>
         <Header />
 
-        <Wrapper>
+        <S.Wrapper>
           <AccuracyBar />
 
           <Spacer height={60} />
 
-          <PerformanceText>Performance Stats</PerformanceText>
+          <S.PerformanceText>Performance Stats</S.PerformanceText>
 
-          <CardRow>
-            <Card>
-              <CardValue>8</CardValue>
-              <CardTitle>Correct</CardTitle>
-            </Card>
-            <Card>
-              <CardValue>3</CardValue>
-              <CardTitle>Incorrect</CardTitle>
-            </Card>
-          </CardRow>
+          <S.CardRow>
+            <ResultCard title="Correct" value="8" />
+            <ResultCard title="Incorrect" value="3" />
+          </S.CardRow>
           <Spacer height={20} />
-          <CardRow>
-            <Card>
-              <CardValue>7.3s</CardValue>
-              <CardTitle>Avg. Time/Ques</CardTitle>
-            </Card>
-            <Card>
-              <CardValue>6</CardValue>
-              <CardTitle>Longest Streak</CardTitle>
-            </Card>
-          </CardRow>
+          <S.CardRow>
+            <ResultCard title="Avg. Time/Ques" value="7.3s" />
+            <ResultCard title="Longest Streak" value="6" />
+          </S.CardRow>
 
           <Spacer flex={1} />
 
           <MainButtons showStats={false} />
-        </Wrapper>
+        </S.Wrapper>
       </>
     </GradientBackground>
   );
