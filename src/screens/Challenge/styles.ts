@@ -8,7 +8,7 @@ interface AnswerProps extends TouchableOpacityProps {
   selected: boolean;
 }
 
-export const Wrapper = styled.View`
+export const Wrapper = styled.SafeAreaView`
   flex: 1;
   align-items: center;
   padding: 40px 32px;
@@ -20,21 +20,6 @@ export const Question = styled.Text`
   font-size: 24px;
   text-align: center;
   width: 100%;
-`;
-
-export const ContinueButton = styled(RectButton)<RectButtonProperties>`
-  justify-content: center;
-  align-items: center;
-  height: 55px;
-  width: 100%;
-  background-color: ${(props) => (props.enabled ? '#52C791' : '#a3a3a3')};
-  border-radius: 44px;
-`;
-
-export const ContinueButtonText = styled.Text`
-  font-size: 28px;
-  color: #fff;
-  font-family: 'Roboto_500Medium';
 `;
 
 export const Answer = styled.TouchableOpacity<AnswerProps>`

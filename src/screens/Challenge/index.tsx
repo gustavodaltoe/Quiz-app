@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 
+import { ContinueButton } from '../../components/ContinueButton';
 import { GradientBackground } from '../../components/GradientBackground';
 import { Spacer } from '../../components/Spacer';
 
@@ -37,6 +38,7 @@ export function Challenge() {
         <Header />
         <S.Wrapper>
           <S.Question>{question}</S.Question>
+
           <Spacer flex={1} />
           {answers.map((answer, i) => (
             <S.Answer
@@ -48,11 +50,11 @@ export function Challenge() {
             </S.Answer>
           ))}
           <Spacer height={40} />
-          <S.ContinueButton
+
+          <ContinueButton
             enabled={!!selectedAnswer}
-            onPress={handleContinuePress}>
-            <S.ContinueButtonText>Continue</S.ContinueButtonText>
-          </S.ContinueButton>
+            onPress={handleContinuePress}
+          />
         </S.Wrapper>
       </>
     </GradientBackground>
