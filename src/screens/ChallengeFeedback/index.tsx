@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import ConfettiCannon from 'react-native-confetti-cannon';
 import { useWindowDimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -24,13 +24,17 @@ export function ChallengeFeedback() {
     '#38DAE0',
   ];
 
+  const goToNextScreen = useCallback(() => {
+    navigation.navigate('challenge-results');
+  }, [navigation]);
+
   useEffect(() => {
     const timeout = setTimeout(() => {
-      navigation.navigate('challenge-results');
-    }, 5000);
+      goToNextScreen();
+    }, 4000);
 
     return () => clearTimeout(timeout);
-  }, [navigation]);
+  }, [navigation, goToNextScreen]);
 
   return (
     <GradientBackground>
@@ -46,7 +50,7 @@ export function ChallengeFeedback() {
           <S.FeedbackText>Awesome!{'\n'}Correct answer</S.FeedbackText>
           <Spacer flex={1} />
 
-          <ContinueButton />
+          <ContinueButton onPress={goToNextScreen} />
         </S.Wrapper>
       </>
     </GradientBackground>
