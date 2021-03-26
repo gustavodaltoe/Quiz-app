@@ -1,28 +1,15 @@
 import React, { useCallback, useEffect } from 'react';
-import ConfettiCannon from 'react-native-confetti-cannon';
-import { useWindowDimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { GradientBackground } from '../../components/GradientBackground';
 import { ContinueButton } from '../../components/ContinueButton';
 import { Spacer } from '../../components/Spacer';
+import { Confetti } from '../../components/Confetti';
 
 import * as S from './styles';
 
 export function ChallengeFeedback() {
   const navigation = useNavigation();
-  const windowHeight = useWindowDimensions().height;
-
-  const confettiColors = [
-    '#C96B6B',
-    '#FDBFE1',
-    '#FCFE38',
-    '#0077DB',
-    '#FF0D01',
-    '#FFF9DF',
-    '#CCEAF2',
-    '#38DAE0',
-  ];
 
   const goToNextScreen = useCallback(() => {
     navigation.navigate('challenge-results');
@@ -36,14 +23,21 @@ export function ChallengeFeedback() {
     return () => clearTimeout(timeout);
   }, [navigation, goToNextScreen]);
 
+  useEffect(() => {
+    navigation.addListener('beforeRemove', (e) => {
+      // Prevent default behavior of going back
+      if (e.data.action.type === 'GO_BACK') {
+        e.preventDefault();
+
+        navigation.navigate('home');
+      }
+    });
+  }, [navigation]);
+
   return (
     <GradientBackground>
       <>
-        <ConfettiCannon
-          count={200}
-          origin={{ x: 0, y: windowHeight }}
-          colors={confettiColors}
-        />
+        <Confetti />
 
         <S.Wrapper>
           <Spacer flex={1} />

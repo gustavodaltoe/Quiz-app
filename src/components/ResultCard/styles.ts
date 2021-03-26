@@ -8,7 +8,7 @@ export const Card = styled.View`
   justify-content: center;
   align-items: center;
 
-  background-color: #105aa0;
+  background-color: #0b69b2;
 `;
 
 export const CardValue = styled.Text`

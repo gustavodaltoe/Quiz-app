@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { ContinueButton } from '../../components/ContinueButton';
 import { GradientBackground } from '../../components/GradientBackground';
@@ -10,6 +10,8 @@ import * as S from './styles';
 
 export function Challenge() {
   const navigation = useNavigation();
+
+  const [goBack, setGoBack] = useState(false);
 
   const [question, setQuestion] = useState(
     'In Counter-Strike: Global Offensive, what’s the rarity of discontinued skins called?',
@@ -31,6 +33,17 @@ export function Challenge() {
   const handleAnswersPress = (answer: string) => {
     setSelectedAnswer(answer);
   };
+
+  useEffect(() => {
+    navigation.addListener('beforeRemove', (e) => {
+      // Prevent default behavior of going back
+      if (e.data.action.type === 'GO_BACK') {
+        e.preventDefault();
+
+        navigation.navigate('home');
+      }
+    });
+  }, [navigation]);
 
   return (
     <GradientBackground>
