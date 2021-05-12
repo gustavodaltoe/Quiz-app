@@ -19,16 +19,20 @@ export function Challenge() {
   const { isLoading, questions, current, answerQuestion } = useContext(
     ChallengesContext,
   );
-  const { startCountdown, resetCountdown } = useContext(CountdownContext);
+  const {
+    hasFinished: hasTimerFinished,
+    startCountdown,
+    resetCountdown,
+  } = useContext(CountdownContext);
 
   const [selectedAnswer, setSelectedAnswer] = useState('');
 
-  const handleContinuePress = () => {
+  const handleContinuePress = useCallback(() => {
     resetCountdown();
     const isCorrect = answerQuestion(selectedAnswer);
 
     navigation.navigate('challenge-feedback', { isCorrect });
-  };
+  }, [navigation, resetCountdown, answerQuestion, selectedAnswer]);
 
   const handleAnswersPress = (answer: string) => {
     setSelectedAnswer(answer);
@@ -41,6 +45,12 @@ export function Challenge() {
       }
     }, [isLoading, startCountdown]),
   );
+
+  useEffect(() => {
+    if (hasTimerFinished) {
+      handleContinuePress();
+    }
+  }, [hasTimerFinished, handleContinuePress]);
 
   useEffect(() => {
     navigation.addListener('beforeRemove', (e) => {
