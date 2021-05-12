@@ -1,19 +1,39 @@
-import React, { useCallback, useEffect } from 'react';
+import { FontAwesome } from '@expo/vector-icons';
+
+import React, { useCallback, useContext, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { StackScreenProps } from '@react-navigation/stack';
 
 import { GradientBackground } from '../../components/GradientBackground';
 import { ContinueButton } from '../../components/ContinueButton';
 import { Spacer } from '../../components/Spacer';
 import { Confetti } from '../../components/Confetti';
+import { ChallengesContext } from '../../contexts/ChallengesContext';
 
 import * as S from './styles';
 
-export function ChallengeFeedback() {
+type ParamList = {
+  'challenge-feedback': {
+    isCorrect: boolean;
+  };
+};
+
+type IProps = StackScreenProps<ParamList, 'challenge-feedback'>;
+
+export function ChallengeFeedback({ route }: IProps) {
   const navigation = useNavigation();
 
+  const { isFinished } = useContext(ChallengesContext);
+
+  const { isCorrect } = route.params;
+
   const goToNextScreen = useCallback(() => {
-    navigation.navigate('challenge-results');
-  }, [navigation]);
+    if (isFinished) {
+      return navigation.navigate('challenge-results');
+    }
+    navigation.navigate('challenge');
+  }, [isFinished, navigation]);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -37,11 +57,18 @@ export function ChallengeFeedback() {
   return (
     <GradientBackground>
       <>
-        <Confetti />
+        {isCorrect && <Confetti />}
 
         <S.Wrapper>
           <Spacer flex={1} />
-          <S.FeedbackText>Awesome!{'\n'}Correct answer</S.FeedbackText>
+          {isCorrect ? (
+            <S.FeedbackText>Awesome!{'\n'}Correct answer</S.FeedbackText>
+          ) : (
+            <>
+              <FontAwesome name="frown-o" size={96} color="#fff" />
+              <S.FeedbackText>Incorrect answer</S.FeedbackText>
+            </>
+          )}
           <Spacer flex={1} />
 
           <ContinueButton onPress={goToNextScreen} />

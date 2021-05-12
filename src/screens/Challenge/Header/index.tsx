@@ -1,13 +1,17 @@
 import { FontAwesome } from '@expo/vector-icons';
 
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import React, { useContext } from 'react';
 import { View } from 'react-native';
+
+import { ChallengesContext } from '../../../contexts/ChallengesContext';
 
 import * as S from './styles';
 
 export function Header() {
   const navigation = useNavigation();
+
+  const { current, total } = useContext(ChallengesContext);
 
   const onClosePress = () => {
     navigation.navigate('home');
@@ -16,7 +20,7 @@ export function Header() {
   return (
     <>
       <S.Wrapper>
-        <S.HeaderText>4/5</S.HeaderText>
+        <S.HeaderText>{`${current + 1}/${total}`}</S.HeaderText>
         <S.HeaderText>15s</S.HeaderText>
         <S.CloseButton onPress={onClosePress}>
           <FontAwesome name="times" size={24} color="#fff" />

@@ -1,9 +1,10 @@
 import { FontAwesome } from '@expo/vector-icons';
 
-import React from 'react';
+import React, { useContext } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
 import { Spacer } from '../Spacer';
+import { ChallengesContext } from '../../contexts/ChallengesContext';
 
 import { Button, ButtonText } from './styles';
 
@@ -14,12 +15,14 @@ interface Props {
 
 export function MainButtons({ showPlay = true, showStats = true }: Props) {
   const navigation = useNavigation();
+  const { startNewChallenge } = useContext(ChallengesContext);
 
   const handleStatsPress = () => {
     navigation.navigate('stats');
   };
 
   const handlePlayPress = () => {
+    startNewChallenge();
     navigation.navigate('challenge');
   };
 

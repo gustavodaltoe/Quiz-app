@@ -10,6 +10,7 @@ import {
   Roboto_400Regular,
 } from '@expo-google-fonts/roboto';
 
+import { ChallengesProvider } from './contexts/ChallengesContext';
 import { Routes } from './routes';
 
 export function App() {
@@ -25,7 +26,10 @@ export function App() {
     return (
       <NavigationContainer>
         <StatusBar barStyle="light-content" backgroundColor="#000000" />
-        <Routes />
+
+        <ChallengesProvider>
+          <Routes />
+        </ChallengesProvider>
       </NavigationContainer>
     );
   }
