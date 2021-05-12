@@ -5,6 +5,7 @@ import React, { useContext } from 'react';
 import { View } from 'react-native';
 
 import { ChallengesContext } from '../../../contexts/ChallengesContext';
+import { CountdownContext } from '../../../contexts/CountdownContext';
 
 import * as S from './styles';
 
@@ -12,6 +13,7 @@ export function Header() {
   const navigation = useNavigation();
 
   const { current, total } = useContext(ChallengesContext);
+  const { timeInSeconds, totalTime } = useContext(CountdownContext);
 
   const onClosePress = () => {
     navigation.navigate('home');
@@ -21,14 +23,18 @@ export function Header() {
     <>
       <S.Wrapper>
         <S.HeaderText>{`${current + 1}/${total}`}</S.HeaderText>
-        <S.HeaderText>15s</S.HeaderText>
+        <S.HeaderText>{timeInSeconds}s</S.HeaderText>
         <S.CloseButton onPress={onClosePress}>
           <FontAwesome name="times" size={24} color="#fff" />
         </S.CloseButton>
       </S.Wrapper>
       <S.TimerBar>
         <View
-          style={{ backgroundColor: '#52C791', height: '100%', width: '70%' }}
+          style={{
+            backgroundColor: '#52C791',
+            height: '100%',
+            width: `${(timeInSeconds * 100) / totalTime}%`,
+          }}
         />
       </S.TimerBar>
     </>

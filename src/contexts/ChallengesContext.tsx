@@ -28,7 +28,7 @@ interface ChallengesContextData {
   total: number;
   amountCorrect: number;
   isLoading: boolean;
-  isFinished: boolean;
+  hasFinished: boolean;
   startNewChallenge: () => Promise<void>;
   answerQuestion: (answer: string) => boolean;
 }
@@ -40,13 +40,13 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
   const [current, setCurrent] = useState(0);
   const [amountCorrect, setAmountCorrect] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [isFinished, setIsFinished] = useState(false);
+  const [hasFinished, setHasFinished] = useState(false);
 
   const total = 5;
 
   async function startNewChallenge() {
     setIsLoading(true);
-    setIsFinished(false);
+    setHasFinished(false);
 
     const { results } = await fetch(
       `https://opentdb.com/api.php?amount=${total}&type=multiple`,
@@ -80,7 +80,7 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
     setCurrent(nextQuestion);
 
     if (nextQuestion === 0) {
-      setIsFinished(true);
+      setHasFinished(true);
     }
 
     return isCorrect;
@@ -94,7 +94,7 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
         total,
         amountCorrect,
         isLoading,
-        isFinished,
+        hasFinished,
         startNewChallenge,
         answerQuestion,
       }}>

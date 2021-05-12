@@ -12,6 +12,7 @@ import {
 
 import { ChallengesProvider } from './contexts/ChallengesContext';
 import { Routes } from './routes';
+import { CountdownProvider } from './contexts/CountdownContext';
 
 export function App() {
   const [fontsLoaded] = useFonts({
@@ -28,7 +29,9 @@ export function App() {
         <StatusBar barStyle="light-content" backgroundColor="#000000" />
 
         <ChallengesProvider>
-          <Routes />
+          <CountdownProvider>
+            <Routes />
+          </CountdownProvider>
         </ChallengesProvider>
       </NavigationContainer>
     );

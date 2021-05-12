@@ -24,16 +24,16 @@ type IProps = StackScreenProps<ParamList, 'challenge-feedback'>;
 export function ChallengeFeedback({ route }: IProps) {
   const navigation = useNavigation();
 
-  const { isFinished } = useContext(ChallengesContext);
+  const { hasFinished } = useContext(ChallengesContext);
 
   const { isCorrect } = route.params;
 
   const goToNextScreen = useCallback(() => {
-    if (isFinished) {
+    if (hasFinished) {
       return navigation.navigate('challenge-results');
     }
     navigation.navigate('challenge');
-  }, [isFinished, navigation]);
+  }, [hasFinished, navigation]);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
