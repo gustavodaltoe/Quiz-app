@@ -13,7 +13,9 @@ export function Header() {
   const navigation = useNavigation();
 
   const { current, total } = useContext(ChallengesContext);
-  const { timeInSeconds, totalTime } = useContext(CountdownContext);
+  const { timeInMilliseconds, totalTime, timeInSeconds } = useContext(
+    CountdownContext,
+  );
 
   const onClosePress = () => {
     navigation.navigate('home');
@@ -33,7 +35,7 @@ export function Header() {
           style={{
             backgroundColor: '#52C791',
             height: '100%',
-            width: `${(timeInSeconds * 100) / totalTime}%`,
+            width: `${(timeInMilliseconds * 100) / totalTime}%`,
           }}
         />
       </S.TimerBar>

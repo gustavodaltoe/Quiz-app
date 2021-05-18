@@ -6,6 +6,7 @@ interface CountdownProviderProps {
 }
 
 interface CountdownContextData {
+  timeInMilliseconds: number;
   timeInSeconds: number;
   totalTime: number;
   hasFinished: boolean;
@@ -17,26 +18,23 @@ interface CountdownContextData {
 export const CountdownContext = createContext({} as CountdownContextData);
 
 let countdownTimeout: number;
-const initialTimeout = 15;
+const initialTimeout = 15 * 1000;
 
 export function CountdownProvider({ children }: CountdownProviderProps) {
-  // const { startNewChallenge } = useContext(ChallengesContext);
-
-  const [timeInSeconds, setTimeInSeconds] = useState(initialTimeout);
+  const [timeInMilliseconds, setTimeInMilliseconds] = useState(initialTimeout);
   const [isActive, setIsActive] = useState(false);
   const [hasFinished, setHasFinished] = useState(false);
 
   useEffect(() => {
-    if (isActive && timeInSeconds > 0) {
+    if (isActive && timeInMilliseconds > 0) {
       countdownTimeout = setTimeout(() => {
-        setTimeInSeconds(timeInSeconds - 1);
-      }, 1000);
-    } else if (isActive && timeInSeconds === 0) {
+        setTimeInMilliseconds(timeInMilliseconds - 100);
+      }, 100);
+    } else if (isActive && timeInMilliseconds === 0) {
       setHasFinished(true);
       setIsActive(false);
-      // startNewChallenge();
     }
-  }, [isActive, timeInSeconds]);
+  }, [isActive, timeInMilliseconds]);
 
   function startCountdown() {
     setIsActive(true);
@@ -45,14 +43,15 @@ export function CountdownProvider({ children }: CountdownProviderProps) {
   function resetCountdown() {
     clearTimeout(countdownTimeout);
     setIsActive(false);
-    setTimeInSeconds(initialTimeout);
+    setTimeInMilliseconds(initialTimeout);
     setHasFinished(false);
   }
 
   return (
     <CountdownContext.Provider
       value={{
-        timeInSeconds,
+        timeInMilliseconds,
+        timeInSeconds: Math.ceil(timeInMilliseconds / 1000),
         hasFinished,
         totalTime: initialTimeout,
         isActive,

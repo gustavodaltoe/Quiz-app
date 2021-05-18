@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import { Spacer } from '../Spacer';
 import { ChallengesContext } from '../../contexts/ChallengesContext';
+import { CountdownContext } from '../../contexts/CountdownContext';
 
 import { Button, ButtonText } from './styles';
 
@@ -16,6 +17,7 @@ interface Props {
 export function MainButtons({ showPlay = true, showStats = true }: Props) {
   const navigation = useNavigation();
   const { startNewChallenge } = useContext(ChallengesContext);
+  const { resetCountdown } = useContext(CountdownContext);
 
   const handleStatsPress = () => {
     navigation.navigate('stats');
@@ -23,6 +25,7 @@ export function MainButtons({ showPlay = true, showStats = true }: Props) {
 
   const handlePlayPress = () => {
     startNewChallenge();
+    resetCountdown();
     navigation.navigate('challenge');
   };
 

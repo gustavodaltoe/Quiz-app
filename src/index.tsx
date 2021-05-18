@@ -28,11 +28,11 @@ export function App() {
       <NavigationContainer>
         <StatusBar barStyle="light-content" backgroundColor="#000000" />
 
-        <ChallengesProvider>
-          <CountdownProvider>
+        <CountdownProvider>
+          <ChallengesProvider>
             <Routes />
-          </CountdownProvider>
-        </ChallengesProvider>
+          </ChallengesProvider>
+        </CountdownProvider>
       </NavigationContainer>
     );
   }
