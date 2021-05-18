@@ -59,6 +59,7 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
   const [timeToAnswer, setTimeToAnswer] = useState<number[]>([]);
   const [avgTimePerQuestion, setAvgTimePerQuestion] = useState(0);
   const [totalTime, setTotalTime] = useState(0);
+  const [streak, setStreak] = useState(0);
 
   const total = 5;
 
@@ -77,6 +78,7 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
     setHasFinished(false);
     setTimeToAnswer([]);
     setAmountCorrect(0);
+    setStreak(0);
 
     const { results } = await fetch(
       `https://opentdb.com/api.php?amount=${total}&type=multiple`,
@@ -107,6 +109,10 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
     const isCorrect = answer === questions[current].correctAnswer;
     if (isCorrect) {
       setAmountCorrect(amountCorrect + 1);
+      setStreak(streak + 1);
+      // add longest streak validation here
+    } else {
+      setStreak(0);
     }
 
     const nextQuestion = current < total - 1 ? current + 1 : 0;
