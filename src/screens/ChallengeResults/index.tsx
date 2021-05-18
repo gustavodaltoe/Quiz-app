@@ -33,6 +33,8 @@ export function ChallengeResults() {
     });
   }, [navigation]);
 
+  const won = amountCorrect > amountIncorrect;
+
   return (
     <GradientBackground>
       <>
@@ -42,11 +44,20 @@ export function ChallengeResults() {
             <FontAwesome name="times" size={24} color="#fff" />
           </S.CloseButton>
 
-          <S.Title>
-            <FontAwesome name="smile-o" size={64} />
-            {'\n'}
-            You win!
-          </S.Title>
+          {won && (
+            <S.Title>
+              <FontAwesome name="smile-o" size={64} />
+              {'\n'}
+              You win!
+            </S.Title>
+          )}
+          {!won && (
+            <S.Title>
+              <FontAwesome name="frown-o" size={64} />
+              {'\n'}
+              You lose!
+            </S.Title>
+          )}
 
           <Spacer height={40} />
 
