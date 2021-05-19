@@ -19,12 +19,12 @@ import {
   NotRegisteredText,
 } from './styles';
 
-export function SignIn() {
+export function SignUp() {
   const navigation = useNavigation();
 
   return (
     <Formik
-      initialValues={{ email: '', password: '' }}
+      initialValues={{ email: '', password: '', passwordConfirmation: '' }}
       onSubmit={async (values) => {
         console.log(values);
       }}>
@@ -59,28 +59,30 @@ export function SignIn() {
                     secureTextEntry={true}
                     value={values.password}
                   />
+
+                  <InputTitle>Confirm password</InputTitle>
+                  <Input
+                    onChangeText={handleChange('passwordConfirmation')}
+                    onBlur={handleBlur('passwordConfirmation')}
+                    textContentType="password"
+                    secureTextEntry={true}
+                    value={values.passwordConfirmation}
+                  />
                 </Form>
 
                 <Spacer height={30} />
 
                 <Button onPress={() => handleSubmit()}>
-                  <ButtonText>Login</ButtonText>
-                </Button>
-                <Button
-                  onPress={() => navigation.navigate('home')}
-                  style={{ backgroundColor: 'transparent' }}>
-                  <TransparentButtonText>
-                    Login as a guest
-                  </TransparentButtonText>
+                  <ButtonText>Register</ButtonText>
                 </Button>
 
                 <Spacer height={20} />
 
-                <NotRegisteredText>Not yet registered?</NotRegisteredText>
+                <NotRegisteredText>Already has an account?</NotRegisteredText>
                 <Button
-                  onPress={() => navigation.navigate('sign-up')}
+                  onPress={() => navigation.navigate('sign-in')}
                   style={{ backgroundColor: 'transparent' }}>
-                  <TransparentButtonText>Sign Up</TransparentButtonText>
+                  <TransparentButtonText>Sign In</TransparentButtonText>
                 </Button>
               </>
             )}
