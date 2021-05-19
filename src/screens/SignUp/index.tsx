@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik } from 'formik';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Keyboard } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import * as Yup from 'yup';
 
 import { GradientBackground } from '../../components/GradientBackground';
 import logo from '../../assets/logo.png';
@@ -19,19 +20,57 @@ import {
   NotRegisteredText,
 } from './styles';
 
+const SignUpSchema = Yup.object().shape({
+  email: Yup.string().email('Invalid email').required(),
+  password: Yup.string().max(20, 'Max 20 characters').required(),
+  passwordConfirmation: Yup.string()
+    .max(20, 'Max 20 characters')
+    .oneOf([Yup.ref('password'), null], 'Passwords must match')
+    .required(),
+});
+
 export function SignUp() {
   const navigation = useNavigation();
+  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+
+  const onKeyboardOpen = () => {
+    setIsKeyboardOpen(true);
+  };
+
+  const onKeyboardClose = () => {
+    setIsKeyboardOpen(false);
+  };
+
+  useEffect(() => {
+    Keyboard.addListener('keyboardDidShow', onKeyboardOpen);
+    Keyboard.addListener('keyboardDidHide', onKeyboardClose);
+
+    // cleanup function
+    return () => {
+      Keyboard.removeListener('keyboardDidShow', onKeyboardOpen);
+      Keyboard.removeListener('keyboardDidHide', onKeyboardClose);
+    };
+  }, []);
 
   return (
     <Formik
       initialValues={{ email: '', password: '', passwordConfirmation: '' }}
+      validationSchema={SignUpSchema}
       onSubmit={async (values) => {
         console.log(values);
       }}>
-      {({ handleChange, handleBlur, handleSubmit, values, isSubmitting }) => (
+      {({
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        values,
+        isSubmitting,
+        errors,
+        touched,
+      }) => (
         <GradientBackground>
           <Wrapper>
-            <LogoImg source={logo} />
+            {!isKeyboardOpen && <LogoImg source={logo} />}
 
             <Spacer flex={1} />
 
@@ -49,6 +88,7 @@ export function SignUp() {
                     autoCompleteType="email"
                     textContentType="emailAddress"
                     value={values.email}
+                    hasError={!!errors.email && touched.email}
                   />
 
                   <InputTitle>Password</InputTitle>
@@ -58,6 +98,7 @@ export function SignUp() {
                     textContentType="password"
                     secureTextEntry={true}
                     value={values.password}
+                    hasError={!!errors.password && touched.password}
                   />
 
                   <InputTitle>Confirm password</InputTitle>
@@ -67,6 +108,10 @@ export function SignUp() {
                     textContentType="password"
                     secureTextEntry={true}
                     value={values.passwordConfirmation}
+                    hasError={
+                      !!errors.passwordConfirmation &&
+                      touched.passwordConfirmation
+                    }
                   />
                 </Form>
 
