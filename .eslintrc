@@ -1,16 +1,32 @@
 {
   "extends": "react-native-wcandillon",
   "rules": {
-    "quotes": [1, "single", { "allowTemplateLiterals": true }],
-    "object-curly-spacing": ["off", "always"],
-    "@typescript-eslint/no-use-before-define": ["off", { "variables": false }],
-    "@typescript-eslint/explicit-function-return-type": ["off"],
+    "quotes": [
+      1,
+      "single",
+      {
+        "allowTemplateLiterals": true
+      }
+    ],
+    "object-curly-spacing": [
+      "off",
+      "always"
+    ],
+    "@typescript-eslint/no-use-before-define": [
+      "off",
+      {
+        "variables": false
+      }
+    ],
+    "@typescript-eslint/explicit-function-return-type": [
+      "off"
+    ],
     "no-shadow": "off",
-    "@typescript-eslint/interface-name-prefix": "off"
-  },
-  "settings": {
-    "import/core-modules": [
-      "@expo/vector-icons"
-    ]
+    "@typescript-eslint/interface-name-prefix": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars-experimental": "error",
+    "no-unused-vars": "off",
+    "import/no-extraneous-dependencies": "off",
+    "@typescript-eslint/no-explicit-any": "off"
   }
 }
