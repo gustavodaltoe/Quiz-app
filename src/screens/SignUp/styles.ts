@@ -36,7 +36,7 @@ export const Input = styled.TextInput<InputProps>`
   width: 290px;
   padding: 8px;
   border-radius: 4px;
-  border-width: 2px;
+  border-width: 1px;
   border-color: ${(props) => (props.hasError ? 'red' : '#fff')};
 `;
 

@@ -1,6 +1,10 @@
 import { RectButton } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
 
+interface InputProps {
+  hasError?: boolean;
+}
+
 export const Wrapper = styled.SafeAreaView`
   flex: 1;
   align-items: center;
@@ -26,12 +30,14 @@ export const InputTitle = styled.Text`
   font-family: 'Roboto_400Regular';
 `;
 
-export const Input = styled.TextInput`
+export const Input = styled.TextInput<InputProps>`
   background-color: #fff;
   height: 40px;
   width: 290px;
   padding: 8px;
   border-radius: 4px;
+  border-width: 1px;
+  border-color: ${(props) => (props.hasError ? 'red' : '#fff')};
 `;
 
 export const Button = styled(RectButton)`
