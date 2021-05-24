@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import firebase from 'firebase/app';
+import * as Notifications from 'expo-notifications';
 
 import { useToaster } from './ToasterContext';
 
@@ -36,6 +37,20 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     return unsubscribe;
   }, []);
 
+  async function welcomeNotification() {
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: 'Welcome to Quiz App! 😁',
+        body: 'Have fun trying to answer our questions!',
+        sound: true,
+        priority: Notifications.AndroidNotificationPriority.HIGH,
+      },
+      trigger: {
+        seconds: 1,
+      },
+    });
+  }
+
   async function login(
     email: string,
     password: string,
@@ -66,6 +81,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }
 
   async function anonymousLogin() {
+    welcomeNotification();
     return login('', '');
   }
 
@@ -79,6 +95,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         .createUserWithEmailAndPassword(email, password);
 
       setUser(user);
+
+      welcomeNotification();
     } catch (err) {
       console.log(err);
       showToaster('Failed to register, try again');

@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
+import * as Notifications from 'expo-notifications';
 
 import { ChallengesProvider } from './contexts/ChallengesContext';
 import { Routes } from './routes';
@@ -34,6 +35,14 @@ if (!firebase.apps.length) {
 if (Platform.OS !== 'web') {
   LogBox.ignoreLogs(['Setting a timer']);
 }
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 
 export function App() {
   return (
