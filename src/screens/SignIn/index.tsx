@@ -65,7 +65,7 @@ export function SignIn() {
       initialValues={{ email: '', password: '' }}
       validationSchema={SignInSchema}
       onSubmit={async ({ email, password }) => {
-        login(email, password);
+        await login(email, password);
       }}>
       {({
         handleChange,

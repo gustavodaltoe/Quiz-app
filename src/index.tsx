@@ -10,6 +10,8 @@ import { ChallengesProvider } from './contexts/ChallengesContext';
 import { Routes } from './routes';
 import { CountdownProvider } from './contexts/CountdownContext';
 import { AuthProvider } from './contexts/AuthContext';
+import { ToasterProvider } from './contexts/ToasterContext';
+import { Toaster } from './components/Toaster';
 
 // Initialize Firebase
 const firebaseConfig = {
@@ -34,13 +36,16 @@ export function App() {
     <NavigationContainer>
       <StatusBar barStyle="light-content" backgroundColor="#000000" />
 
-      <AuthProvider>
-        <CountdownProvider>
-          <ChallengesProvider>
-            <Routes />
-          </ChallengesProvider>
-        </CountdownProvider>
-      </AuthProvider>
+      <ToasterProvider>
+        <AuthProvider>
+          <CountdownProvider>
+            <ChallengesProvider>
+              <Routes />
+              <Toaster />
+            </ChallengesProvider>
+          </CountdownProvider>
+        </AuthProvider>
+      </ToasterProvider>
     </NavigationContainer>
   );
 }

@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import firebase from 'firebase/app';
 
+import { useToaster } from './ToasterContext';
+
 type AuthContext = {
   isAuthenticated: boolean;
   user: firebase.User | null;
@@ -20,6 +22,8 @@ const AuthContext = createContext({} as AuthContext);
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<firebase.User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  const { showToaster } = useToaster();
 
   useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
@@ -56,6 +60,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       }
     } catch (err) {
       console.log(err);
+      showToaster('Incorrect email or password');
     }
     return null;
   }
@@ -76,6 +81,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setUser(user);
     } catch (err) {
       console.log(err);
+      showToaster('Failed to register, try again');
     }
     return null;
   }
