@@ -1,29 +1,30 @@
+/* eslint-disable camelcase */
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import {
+  useFonts,
+  Roboto_900Black,
+  Roboto_500Medium,
+  Roboto_400Regular,
+} from '@expo-google-fonts/roboto';
 
-import { Home } from '../screens/Home';
-import { Stats } from '../screens/Stats';
-import { ChallengeFeedback } from '../screens/ChallengeFeedback';
-import { Challenge } from '../screens/Challenge';
-import { ChallengeResults } from '../screens/ChallengeResults';
-import { SignIn } from '../screens/SignIn';
-import { SignUp } from '../screens/SignUp';
+import { useAuth } from '../contexts/AuthContext';
+import { Loading } from '../screens/Loading';
 
-const AppStack = createStackNavigator();
+import { PrivateRoutes } from './private.routes';
+import { PublicRoutes } from './public.routes';
 
 export function Routes() {
-  return (
-    <AppStack.Navigator headerMode="none">
-      <AppStack.Screen name="sign-in" component={SignIn} />
-      <AppStack.Screen name="sign-up" component={SignUp} />
-      <AppStack.Screen name="home" component={Home} />
-      <AppStack.Screen name="stats" component={Stats} />
-      <AppStack.Screen name="challenge" component={Challenge} />
-      <AppStack.Screen
-        name="challenge-feedback"
-        component={ChallengeFeedback}
-      />
-      <AppStack.Screen name="challenge-results" component={ChallengeResults} />
-    </AppStack.Navigator>
-  );
+  const { isAuthenticated, isLoading } = useAuth();
+
+  const [fontsLoaded] = useFonts({
+    Roboto_900Black,
+    Roboto_500Medium,
+    Roboto_400Regular,
+  });
+
+  if (isLoading || !fontsLoaded) {
+    return <Loading />;
+  }
+
+  return isAuthenticated ? <PrivateRoutes /> : <PublicRoutes />;
 }

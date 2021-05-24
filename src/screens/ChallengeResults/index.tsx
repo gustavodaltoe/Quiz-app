@@ -1,5 +1,4 @@
 import { FontAwesome } from '@expo/vector-icons';
-
 import { useNavigation } from '@react-navigation/native';
 import React, { useContext, useEffect } from 'react';
 
@@ -15,12 +14,8 @@ import * as S from './styles';
 export function ChallengeResults() {
   const navigation = useNavigation();
 
-  const {
-    amountCorrect,
-    amountIncorrect,
-    avgTimePerQuestion,
-    totalTime,
-  } = useContext(ChallengesContext);
+  const { amountCorrect, amountIncorrect, avgTimePerQuestion, totalTime } =
+    useContext(ChallengesContext);
 
   useEffect(() => {
     navigation.addListener('beforeRemove', (e) => {
@@ -38,7 +33,7 @@ export function ChallengeResults() {
   return (
     <GradientBackground>
       <>
-        <Confetti />
+        {won && <Confetti />}
         <S.Wrapper>
           <S.CloseButton onPress={() => navigation.navigate('home')}>
             <FontAwesome name="times" size={24} color="#fff" />

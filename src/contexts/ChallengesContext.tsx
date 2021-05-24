@@ -1,12 +1,12 @@
 import { decode } from 'html-entities';
 import React, {
   createContext,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ReactNode,
   useContext,
   useEffect,
   useState,
 } from 'react';
+import firebase from 'firebase/app';
 
 import { shuffleArray } from '../utils/shuffle-array';
 
@@ -47,13 +47,13 @@ interface ChallengesContextData {
 export const ChallengesContext = createContext({} as ChallengesContextData);
 
 export function ChallengesProvider({ children }: ChallengesProviderProps) {
-  const { totalTime: countdownTotalTime, timeInMilliseconds } = useContext(
-    CountdownContext,
-  );
+  const { totalTime: countdownTotalTime, timeInMilliseconds } =
+    useContext(CountdownContext);
 
   const [questions, setQuestions] = useState<Question[]>([]);
   const [current, setCurrent] = useState(0);
   const [amountCorrect, setAmountCorrect] = useState(0);
+  const [amountIncorrect, setAmountIncorrect] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [hasFinished, setHasFinished] = useState(false);
   const [timeToAnswer, setTimeToAnswer] = useState<number[]>([]);
@@ -78,6 +78,7 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
     setHasFinished(false);
     setTimeToAnswer([]);
     setAmountCorrect(0);
+    setAmountIncorrect(0);
     setStreak(0);
 
     const { results } = await fetch(
@@ -110,8 +111,9 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
     if (isCorrect) {
       setAmountCorrect(amountCorrect + 1);
       setStreak(streak + 1);
-      // add longest streak validation here
+      // TODO add longest streak validation here
     } else {
+      setAmountIncorrect(amountIncorrect + 1);
       setStreak(0);
     }
 
@@ -119,10 +121,21 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
     setCurrent(nextQuestion);
 
     if (nextQuestion === 0) {
-      setHasFinished(true);
+      endGame();
     }
 
     return isCorrect;
+  }
+
+  function endGame() {
+    setHasFinished(true);
+
+    firebase.database().ref('users/1').set({
+      totalQuestions: total,
+      amountCorrect,
+      amountIncorrect,
+      totalTime,
+    });
   }
 
   return (
@@ -132,7 +145,7 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
         current,
         total,
         amountCorrect,
-        amountIncorrect: total - amountCorrect,
+        amountIncorrect,
         isLoading,
         hasFinished,
         avgTimePerQuestion,

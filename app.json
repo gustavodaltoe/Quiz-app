@@ -2,11 +2,17 @@
   "name": "quiz",
   "displayName": "quiz",
   "expo": {
-    "name": "quiz",
-    "slug": "quiz",
+    "name": "Quiz",
+    "slug": "Quiz",
     "version": "1.0.0",
+    "orientation": "portrait",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "splash": {
+      "image": "./src/assets/logo.png",
+      "backgroundColor": "#009FFD",
+      "resizeMode": "contain"
+    }
   }
 }

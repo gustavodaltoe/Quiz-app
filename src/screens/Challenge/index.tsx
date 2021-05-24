@@ -1,12 +1,12 @@
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { Text } from 'react-native';
 
 import { ContinueButton } from '../../components/ContinueButton';
 import { GradientBackground } from '../../components/GradientBackground';
 import { Spacer } from '../../components/Spacer';
 import { ChallengesContext } from '../../contexts/ChallengesContext';
 import { CountdownContext } from '../../contexts/CountdownContext';
+import { Loading } from '../Loading';
 
 import { Header } from './Header';
 import * as S from './styles';
@@ -16,9 +16,8 @@ const answerColors = ['#2D9DA6', '#EFA929', '#D5546D', '#5488D5'];
 export function Challenge() {
   const navigation = useNavigation();
 
-  const { isLoading, questions, current, answerQuestion } = useContext(
-    ChallengesContext,
-  );
+  const { isLoading, questions, current, answerQuestion } =
+    useContext(ChallengesContext);
   const {
     hasFinished: hasTimerFinished,
     startCountdown,
@@ -64,7 +63,7 @@ export function Challenge() {
   }, [navigation]);
 
   if (isLoading) {
-    return <Text>Loading...</Text>;
+    return <Loading />;
   }
 
   const { question, answers } = questions[current];

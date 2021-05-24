@@ -7,10 +7,12 @@ import logo from '../../assets/logo.png';
 import { MainButtons } from '../../components/MainButtons';
 import { GradientBackground } from '../../components/GradientBackground';
 import { Spacer } from '../../components/Spacer';
+import { useAuth } from '../../contexts/AuthContext';
 
 import { Wrapper, LogoImg, LogoutButton, LogoutText } from './styles';
 
 export function Home() {
+  const { logout } = useAuth();
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -25,7 +27,7 @@ export function Home() {
   }, [navigation]);
 
   const handleLogout = () => {
-    navigation.navigate('sign-in');
+    logout();
   };
 
   return (

@@ -7,6 +7,7 @@ import * as Yup from 'yup';
 import { GradientBackground } from '../../components/GradientBackground';
 import logo from '../../assets/logo.png';
 import { Spacer } from '../../components/Spacer';
+import { useAuth } from '../../contexts/AuthContext';
 
 import {
   Wrapper,
@@ -22,12 +23,17 @@ import {
 
 const SignInSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required(),
-  password: Yup.string().max(20, 'Max 20 characters').required(),
+  password: Yup.string()
+    .min(6, 'Min 6 characters')
+    .max(20, 'Max 20 characters')
+    .required(),
 });
 
 export function SignIn() {
-  const navigation = useNavigation();
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+
+  const navigation = useNavigation();
+  const { login } = useAuth();
 
   const onKeyboardOpen = () => {
     setIsKeyboardOpen(true);
@@ -52,8 +58,8 @@ export function SignIn() {
     <Formik
       initialValues={{ email: '', password: '' }}
       validationSchema={SignInSchema}
-      onSubmit={async (values) => {
-        console.log(values);
+      onSubmit={async ({ email, password }) => {
+        login(email, password);
       }}>
       {({
         handleChange,
