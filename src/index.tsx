@@ -23,7 +23,11 @@ const firebaseConfig = {
   measurementId: 'G-SCL2NKZYRZ',
 };
 
-firebase.initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+} else {
+  firebase.app();
+}
 
 export function App() {
   return (

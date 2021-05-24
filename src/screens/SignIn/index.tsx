@@ -30,10 +30,11 @@ const SignInSchema = Yup.object().shape({
 });
 
 export function SignIn() {
+  const [isLoading, setIsLoading] = useState(false);
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
 
   const navigation = useNavigation();
-  const { login } = useAuth();
+  const { login, anonymousLogin } = useAuth();
 
   const onKeyboardOpen = () => {
     setIsKeyboardOpen(true);
@@ -41,6 +42,12 @@ export function SignIn() {
 
   const onKeyboardClose = () => {
     setIsKeyboardOpen(false);
+  };
+
+  const handleAnonymousLogin = async () => {
+    setIsLoading(true);
+    await anonymousLogin();
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -72,13 +79,18 @@ export function SignIn() {
       }) => (
         <GradientBackground>
           <Wrapper>
-            {!isKeyboardOpen && <LogoImg source={logo} />}
+            {!isKeyboardOpen && (
+              <>
+                <LogoImg source={logo} />
+                <Spacer flex={1} />
+              </>
+            )}
 
-            <Spacer flex={1} />
+            {(isSubmitting || isLoading) && (
+              <ActivityIndicator size={100} color="#fff" />
+            )}
 
-            {isSubmitting && <ActivityIndicator />}
-
-            {!isSubmitting && (
+            {!isSubmitting && !isLoading && (
               <>
                 <Form>
                   <InputTitle>Email</InputTitle>
@@ -110,7 +122,7 @@ export function SignIn() {
                   <ButtonText>Login</ButtonText>
                 </Button>
                 <Button
-                  onPress={() => navigation.navigate('home')}
+                  onPress={handleAnonymousLogin}
                   style={{ backgroundColor: 'transparent' }}>
                   <TransparentButtonText>
                     Login as a guest

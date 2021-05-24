@@ -7,6 +7,7 @@ type AuthContext = {
   isLoading: boolean;
   register(email: string, password: string): Promise<firebase.User | null>;
   login(email: string, password: string): Promise<firebase.User | null>;
+  anonymousLogin(): Promise<firebase.User | null>;
   logout(): void;
 };
 
@@ -40,17 +41,27 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         .auth()
         .setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
-      const { user } = await firebase
-        .auth()
-        .signInWithEmailAndPassword(email, password);
+      if (!email && !password) {
+        const { user } = await firebase.auth().signInAnonymously();
 
-      setUser(user);
+        setUser(user);
+        return user;
+      } else {
+        const { user } = await firebase
+          .auth()
+          .signInWithEmailAndPassword(email, password);
 
-      return user;
+        setUser(user);
+        return user;
+      }
     } catch (err) {
       console.log(err);
     }
     return null;
+  }
+
+  async function anonymousLogin() {
+    return login('', '');
   }
 
   async function register(
@@ -85,6 +96,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         user,
         isLoading,
         login,
+        anonymousLogin,
         register,
         logout,
       }}>

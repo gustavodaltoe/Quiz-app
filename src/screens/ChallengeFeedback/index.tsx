@@ -1,8 +1,6 @@
 import { FontAwesome } from '@expo/vector-icons';
-
 import React, { useCallback, useContext, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { StackScreenProps } from '@react-navigation/stack';
 
 import { GradientBackground } from '../../components/GradientBackground';
@@ -21,6 +19,8 @@ type ParamList = {
 
 type IProps = StackScreenProps<ParamList, 'challenge-feedback'>;
 
+let timeout: number;
+
 export function ChallengeFeedback({ route }: IProps) {
   const navigation = useNavigation();
 
@@ -29,6 +29,7 @@ export function ChallengeFeedback({ route }: IProps) {
   const { isCorrect } = route.params;
 
   const goToNextScreen = useCallback(() => {
+    clearTimeout(timeout);
     if (hasFinished) {
       return navigation.navigate('challenge-results');
     }
@@ -36,7 +37,7 @@ export function ChallengeFeedback({ route }: IProps) {
   }, [hasFinished, navigation]);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
+    timeout = setTimeout(() => {
       goToNextScreen();
     }, 4000);
 

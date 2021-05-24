@@ -5,7 +5,7 @@ interface InputProps {
   hasError?: boolean;
 }
 
-export const Wrapper = styled.SafeAreaView`
+export const Wrapper = styled.View`
   flex: 1;
   align-items: center;
 
@@ -15,8 +15,8 @@ export const Wrapper = styled.SafeAreaView`
 export const LogoImg = styled.Image.attrs({
   resizeMode: 'contain',
 })`
-  width: 250px;
-  height: 250px;
+  width: 200px;
+  height: 200px;
 `;
 
 export const Form = styled.View`
@@ -46,7 +46,7 @@ export const Button = styled(RectButton)`
   height: 42px;
   width: 290px;
   background-color: #fff;
-  border-radius: 44px;
+  border-radius: 22px;
 `;
 
 export const ButtonText = styled.Text`

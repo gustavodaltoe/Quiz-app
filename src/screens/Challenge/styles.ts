@@ -1,14 +1,11 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { TouchableOpacityProps } from 'react-native';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { RectButton, RectButtonProperties } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
 
 interface AnswerProps extends TouchableOpacityProps {
   selected: boolean;
 }
 
-export const Wrapper = styled.SafeAreaView`
+export const Wrapper = styled.View`
   flex: 1;
   align-items: center;
   padding: 40px 32px;

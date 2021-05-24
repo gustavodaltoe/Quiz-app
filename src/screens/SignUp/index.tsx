@@ -77,9 +77,12 @@ export function SignUp() {
       }) => (
         <GradientBackground>
           <Wrapper>
-            {!isKeyboardOpen && <LogoImg source={logo} />}
-
-            <Spacer flex={1} />
+            {!isKeyboardOpen && (
+              <>
+                <LogoImg source={logo} />
+                <Spacer flex={1} />
+              </>
+            )}
 
             {isSubmitting && <ActivityIndicator />}
 

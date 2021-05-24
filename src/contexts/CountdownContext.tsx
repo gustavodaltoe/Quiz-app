@@ -1,5 +1,11 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import React, { createContext, ReactNode, useEffect, useState } from 'react';
+import React, {
+  createContext,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 
 interface CountdownProviderProps {
   children: ReactNode;
@@ -34,18 +40,22 @@ export function CountdownProvider({ children }: CountdownProviderProps) {
       setHasFinished(true);
       setIsActive(false);
     }
+
+    return () => {
+      clearTimeout(countdownTimeout);
+    };
   }, [isActive, timeInMilliseconds]);
 
-  function startCountdown() {
+  const startCountdown = useCallback(() => {
     setIsActive(true);
-  }
+  }, []);
 
-  function resetCountdown() {
+  const resetCountdown = useCallback(() => {
     clearTimeout(countdownTimeout);
     setIsActive(false);
     setTimeInMilliseconds(initialTimeout);
     setHasFinished(false);
-  }
+  }, []);
 
   return (
     <CountdownContext.Provider

@@ -9,7 +9,7 @@ export const ContinueButton = styled(RectButton)<RectButtonProperties>`
   width: 100%;
   background-color: ${(props) =>
     props.enabled || 'undefined' ? '#52C791' : '#a3a3a3'};
-  border-radius: 44px;
+  border-radius: 22px;
 `;
 
 export const ContinueButtonText = styled.Text`
