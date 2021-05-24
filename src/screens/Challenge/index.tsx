@@ -16,7 +16,7 @@ const answerColors = ['#2D9DA6', '#EFA929', '#D5546D', '#5488D5'];
 export function Challenge() {
   const navigation = useNavigation();
 
-  const { isLoading, questions, current, answerQuestion } =
+  const { isLoading, questions, current, answerQuestion, quitChallenge } =
     useContext(ChallengesContext);
   const {
     hasFinished: hasTimerFinished,
@@ -57,10 +57,12 @@ export function Challenge() {
       if (e.data.action.type === 'GO_BACK') {
         e.preventDefault();
 
+        quitChallenge();
+
         navigation.navigate('home');
       }
     },
-    [navigation],
+    [navigation, quitChallenge],
   );
 
   useEffect(() => {

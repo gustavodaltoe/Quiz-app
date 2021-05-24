@@ -43,6 +43,7 @@ interface ChallengesContextData {
   totalTime: number;
   startNewChallenge: () => Promise<void>;
   answerQuestion: (answer: string) => boolean;
+  quitChallenge: () => void;
 }
 
 export const ChallengesContext = createContext({} as ChallengesContextData);
@@ -89,13 +90,23 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasFinished]);
 
-  async function startNewChallenge() {
+  function resetGame() {
     setIsLoading(true);
     setHasFinished(false);
     setTimeToAnswer([]);
     setAmountCorrect(0);
     setAmountIncorrect(0);
     setStreak(0);
+    setTotalTime(0);
+    setQuestions([]);
+    setCurrent(0);
+    setAvgTimePerQuestion(0);
+    setLongestStreak(0);
+  }
+
+  async function startNewChallenge() {
+    setIsLoading(true);
+    resetGame();
 
     const { results } = await fetch(
       `https://opentdb.com/api.php?amount=${total}&type=multiple`,
@@ -150,6 +161,10 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
     setHasFinished(true);
   }
 
+  function quitChallenge() {
+    resetGame();
+  }
+
   return (
     <ChallengesContext.Provider
       value={{
@@ -164,6 +179,7 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
         totalTime,
         startNewChallenge,
         answerQuestion,
+        quitChallenge,
       }}>
       {children}
     </ChallengesContext.Provider>

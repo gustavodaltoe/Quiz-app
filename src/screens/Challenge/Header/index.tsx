@@ -1,5 +1,4 @@
 import { FontAwesome } from '@expo/vector-icons';
-
 import { useNavigation } from '@react-navigation/native';
 import React, { useContext } from 'react';
 import { View } from 'react-native';
@@ -12,12 +11,12 @@ import * as S from './styles';
 export function Header() {
   const navigation = useNavigation();
 
-  const { current, total } = useContext(ChallengesContext);
-  const { timeInMilliseconds, totalTime, timeInSeconds } = useContext(
-    CountdownContext,
-  );
+  const { current, total, quitChallenge } = useContext(ChallengesContext);
+  const { timeInMilliseconds, totalTime, timeInSeconds } =
+    useContext(CountdownContext);
 
   const onClosePress = () => {
+    quitChallenge();
     navigation.navigate('home');
   };
 
