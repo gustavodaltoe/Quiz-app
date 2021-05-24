@@ -3,13 +3,21 @@ import { View } from 'react-native';
 
 import { Bar, PercentageText, Wrapper } from './styles';
 
-export function AccuracyBar() {
+interface Props {
+  accuracy: number;
+}
+
+export function AccuracyBar({ accuracy }: Props) {
   return (
     <Wrapper>
-      <PercentageText>Accuracy: 89%</PercentageText>
+      <PercentageText>Accuracy: {Math.round(accuracy)}%</PercentageText>
       <Bar>
         <View
-          style={{ height: '100%', width: '89%', backgroundColor: '#52C791' }}
+          style={{
+            height: '100%',
+            width: `${accuracy}%`,
+            backgroundColor: '#52C791',
+          }}
         />
       </Bar>
     </Wrapper>

@@ -63,6 +63,7 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
   const [avgTimePerQuestion, setAvgTimePerQuestion] = useState(0);
   const [totalTime, setTotalTime] = useState(0);
   const [streak, setStreak] = useState(0);
+  const [longestStreak, setLongestStreak] = useState(0);
 
   const total = 5;
 
@@ -70,11 +71,23 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
     if (timeToAnswer.length === 0) return;
     const timePerAnswerSum = timeToAnswer.reduce((tot, time) => tot + time);
 
-    setAvgTimePerQuestion(
-      Number((timePerAnswerSum / timeToAnswer.length).toFixed(1)),
-    );
+    setAvgTimePerQuestion(Number((timePerAnswerSum / total).toFixed(1)));
     setTotalTime(Number(timePerAnswerSum.toFixed(1)));
   }, [timeToAnswer]);
+
+  useEffect(() => {
+    if (!hasFinished) return;
+
+    firebase.database().ref(`users/${user?.uid}/challenges`).push({
+      totalQuestions: total,
+      amountCorrect,
+      amountIncorrect,
+      totalTime,
+      avgTimePerQuestion,
+      streak: longestStreak,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasFinished]);
 
   async function startNewChallenge() {
     setIsLoading(true);
@@ -113,8 +126,11 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
     const isCorrect = answer === questions[current].correctAnswer;
     if (isCorrect) {
       setAmountCorrect(amountCorrect + 1);
-      setStreak(streak + 1);
-      // TODO add longest streak validation here
+      const newStreak = streak + 1;
+      setStreak(newStreak);
+      if (newStreak > longestStreak) {
+        setLongestStreak(newStreak);
+      }
     } else {
       setAmountIncorrect(amountIncorrect + 1);
       setStreak(0);
@@ -132,15 +148,6 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
 
   function endGame() {
     setHasFinished(true);
-
-    firebase.database().ref(`users/${user?.uid}/challenges`).push({
-      totalQuestions: total,
-      amountCorrect,
-      amountIncorrect,
-      totalTime,
-      avgTimePerQuestion,
-      streak,
-    });
   }
 
   return (
