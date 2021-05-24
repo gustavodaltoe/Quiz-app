@@ -51,16 +51,23 @@ export function Challenge() {
     }
   }, [hasTimerFinished, handleContinuePress]);
 
-  useEffect(() => {
-    navigation.addListener('beforeRemove', (e) => {
+  const beforeRemove = useCallback(
+    (e: any) => {
       // Prevent default behavior of going back
       if (e.data.action.type === 'GO_BACK') {
         e.preventDefault();
 
         navigation.navigate('home');
       }
-    });
-  }, [navigation]);
+    },
+    [navigation],
+  );
+
+  useEffect(() => {
+    navigation.addListener('beforeRemove', beforeRemove);
+
+    return navigation.removeListener('beforeRemove', beforeRemove);
+  }, [navigation, beforeRemove]);
 
   if (isLoading) {
     return <Loading />;

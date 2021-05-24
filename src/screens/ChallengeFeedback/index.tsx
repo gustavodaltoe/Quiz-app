@@ -44,16 +44,23 @@ export function ChallengeFeedback({ route }: IProps) {
     return () => clearTimeout(timeout);
   }, [navigation, goToNextScreen]);
 
-  useEffect(() => {
-    navigation.addListener('beforeRemove', (e) => {
+  const beforeRemove = useCallback(
+    (e: any) => {
       // Prevent default behavior of going back
       if (e.data.action.type === 'GO_BACK') {
         e.preventDefault();
 
         navigation.navigate('home');
       }
-    });
-  }, [navigation]);
+    },
+    [navigation],
+  );
+
+  useEffect(() => {
+    navigation.addListener('beforeRemove', beforeRemove);
+
+    return navigation.removeListener('beforeRemove', beforeRemove);
+  }, [navigation, beforeRemove]);
 
   return (
     <GradientBackground>

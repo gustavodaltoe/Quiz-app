@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { BackHandler } from 'react-native';
 import { MaterialCommunityIcons as Icon } from '@expo/vector-icons';
@@ -15,16 +15,20 @@ export function Home() {
   const { logout } = useAuth();
   const navigation = useNavigation();
 
-  useEffect(() => {
-    navigation.addListener('beforeRemove', (e) => {
-      // Prevent default behavior of going back
-      if (e.data.action.type === 'GO_BACK') {
-        e.preventDefault();
+  const beforeRemove = useCallback((e: any) => {
+    // Prevent default behavior of going back
+    if (e.data.action.type === 'GO_BACK') {
+      e.preventDefault();
 
-        BackHandler.exitApp();
-      }
-    });
-  }, [navigation]);
+      BackHandler.exitApp();
+    }
+  }, []);
+
+  useEffect(() => {
+    navigation.addListener('beforeRemove', beforeRemove);
+
+    return navigation.removeListener('beforeRemove', beforeRemove);
+  }, [navigation, beforeRemove]);
 
   const handleLogout = () => {
     logout();

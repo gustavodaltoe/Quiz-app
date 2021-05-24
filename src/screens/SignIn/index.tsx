@@ -47,7 +47,6 @@ export function SignIn() {
   const handleAnonymousLogin = async () => {
     setIsLoading(true);
     await anonymousLogin();
-    setIsLoading(false);
   };
 
   useEffect(() => {

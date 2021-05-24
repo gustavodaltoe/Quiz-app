@@ -1,6 +1,6 @@
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import React, { useContext, useEffect } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 
 import { Confetti } from '../../components/Confetti';
 import { GradientBackground } from '../../components/GradientBackground';
@@ -17,16 +17,23 @@ export function ChallengeResults() {
   const { amountCorrect, amountIncorrect, avgTimePerQuestion, totalTime } =
     useContext(ChallengesContext);
 
-  useEffect(() => {
-    navigation.addListener('beforeRemove', (e) => {
+  const beforeRemove = useCallback(
+    (e: any) => {
       // Prevent default behavior of going back
       if (e.data.action.type === 'GO_BACK') {
         e.preventDefault();
 
         navigation.navigate('home');
       }
-    });
-  }, [navigation]);
+    },
+    [navigation],
+  );
+
+  useEffect(() => {
+    navigation.addListener('beforeRemove', beforeRemove);
+
+    return navigation.removeListener('beforeRemove', beforeRemove);
+  }, [navigation, beforeRemove]);
 
   const won = amountCorrect > amountIncorrect;
 
