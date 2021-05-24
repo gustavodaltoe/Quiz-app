@@ -11,6 +11,7 @@ import firebase from 'firebase/app';
 import { shuffleArray } from '../utils/shuffle-array';
 
 import { CountdownContext } from './CountdownContext';
+import { useAuth } from './AuthContext';
 
 interface Question {
   question: string;
@@ -47,6 +48,8 @@ interface ChallengesContextData {
 export const ChallengesContext = createContext({} as ChallengesContextData);
 
 export function ChallengesProvider({ children }: ChallengesProviderProps) {
+  const { user } = useAuth();
+
   const { totalTime: countdownTotalTime, timeInMilliseconds } =
     useContext(CountdownContext);
 
@@ -130,11 +133,13 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
   function endGame() {
     setHasFinished(true);
 
-    firebase.database().ref('users/1').set({
+    firebase.database().ref(`users/${user?.uid}/challenges`).push({
       totalQuestions: total,
       amountCorrect,
       amountIncorrect,
       totalTime,
+      avgTimePerQuestion,
+      streak,
     });
   }
 

@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import { StatusBar } from 'react-native';
+import { StatusBar, LogBox, Platform } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -29,6 +29,10 @@ if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 } else {
   firebase.app();
+}
+
+if (Platform.OS !== 'web') {
+  LogBox.ignoreLogs(['Setting a timer']);
 }
 
 export function App() {
