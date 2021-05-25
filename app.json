@@ -13,6 +13,9 @@
       "image": "./src/assets/logo.png",
       "backgroundColor": "#009FFD",
       "resizeMode": "contain"
+    },
+    "android": {
+      "package": "com.quiz"
     }
   }
 }
