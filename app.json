@@ -16,6 +16,18 @@
     },
     "android": {
       "package": "com.quiz"
+    },
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "quiz-jo",
+            "project": "quiz",
+            "authToken": "19e7b4d9648e4c45ae8c087704801ccf1ea61458d3594ed78240e9e3e7ba5a1f"
+          }
+        }
+      ]
     }
   }
 }

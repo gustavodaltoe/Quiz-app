@@ -6,6 +6,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
 import * as Notifications from 'expo-notifications';
+import * as Sentry from 'sentry-expo';
 
 import { ChallengesProvider } from './contexts/ChallengesContext';
 import { Routes } from './routes';
@@ -13,6 +14,12 @@ import { CountdownProvider } from './contexts/CountdownContext';
 import { AuthProvider } from './contexts/AuthContext';
 import { ToasterProvider } from './contexts/ToasterContext';
 import { Toaster } from './components/Toaster';
+
+Sentry.init({
+  dsn: 'https://a8f35c57a5744e91be2472c0f07daa9e@o794002.ingest.sentry.io/5801434',
+  enableInExpoDevelopment: true,
+  debug: true,
+});
 
 // Initialize Firebase
 const firebaseConfig = {
